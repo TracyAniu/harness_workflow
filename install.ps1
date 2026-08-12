@@ -1,4 +1,4 @@
-# harness-kit 安装脚本（Windows，兼容 Windows PowerShell 5.1 与 pwsh 7+）。幂等：重复运行结果一致。
+﻿# harness-kit 安装脚本（Windows，兼容 Windows PowerShell 5.1 与 pwsh 7+）。幂等：重复运行结果一致。
 # 用法：powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1
 $ErrorActionPreference = "Stop"
 $Kit = Split-Path -Parent $MyInvocation.MyCommand.Path
