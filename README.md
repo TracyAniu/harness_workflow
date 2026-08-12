@@ -13,7 +13,7 @@
 | `claude-skills/` | Claude Code 三件套：`harness-init`（项目初始化，含 5 份模板）/ `harness-task`（每轮任务六步标准流）/ `harness-maintain`（熵回收与规则升级） |
 | `codex-prompts/` | 同一套流程的 Codex 版：`/harness-init` `/harness-task` `/harness-maintain` 斜杠命令 |
 | `global/` | 写入全局配置的片段：`claude-global.md` → `~/.claude/CLAUDE.md`，`codex-global.md` → `~/.codex/AGENTS.md`（含中文触发语映射） |
-| `references/` | 方法论来源的三篇笔记：project-harness 模板、Anthropic 长时程 agent harness、OpenAI Codex harness engineering |
+| `references/` | 方法论来源的三篇笔记（原文链接见下方「方法论来源」） |
 | `install.sh` / `install.ps1` | 幂等安装脚本（macOS/Linux / Windows） |
 
 ## 安装
@@ -62,3 +62,12 @@ git pull && ./install.sh        # Windows: git pull; powershell -File install.ps
 
 - Claude Code：输 `/skills`，应看到 `harness-init` / `harness-task` / `harness-maintain`。
 - Codex：输 `/har`，补全应列出三个命令。
+
+## 方法论来源
+
+`references/` 里是阅读笔记，原始文章：
+
+- [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — Anthropic Engineering, 2025-11
+- [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) — Anthropic Engineering, 2026-03
+- [Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/)（[中文版](https://openai.com/zh-Hans-CN/index/harness-engineering/)）— OpenAI, 2026-02
+- `ai-agent-project-harness-template.md` 是基于以上文章沉淀的自研落地模板，无外部原文。
