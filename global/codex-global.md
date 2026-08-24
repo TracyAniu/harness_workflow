@@ -1,16 +1,16 @@
 # 标准 AI 开发流 dev-harness（与 Claude Code 共用一套）
 
-三个标准流程命令（自定义 prompts，输入 `/名字` 调用，文件在 `~/.codex/prompts/`）：
+三个标准流程以 Codex skills 安装在 `~/.agents/skills/`。输入 `/skills` 查看，或用 `$名字` 显式调用：
 
-- `/harness-init`：给项目初始化 agent 工程环境（AGENTS.md 地图 + docs/ + exec-plans + scripts 统一验证入口），轻量起步分 L0/L1/L2。
-- `/harness-task`：每轮任务标准流（开工检查 → 计划 → 小步实现 → 可执行验证 → 记录进度 → 干净交接）。
-- `/harness-maintain`：熵回收（文档园艺、归档 exec-plans、把反复出现的教训沿"文档→模板→lint→CI"阶梯升级为机制）。
+- `$harness-init`：给项目初始化 agent 工程环境（AGENTS.md 地图 + docs/ + exec-plans + scripts 统一验证入口），轻量起步分 L0/L1/L2。
+- `$harness-task`：每轮任务标准流（开工检查 → 计划 → 小步实现 → 可执行验证 → 记录进度 → 干净交接）。
+- `$harness-maintain`：熵回收（文档园艺、归档 exec-plans、把反复出现的教训沿"文档→模板→lint→CI"阶梯升级为机制）。
 
 **中文触发语**（用户没输斜杠命令时同样生效）：
 
-- 「开工 / 按开发流做 / 接手任务 / 继续 <任务名>」→ 读 `~/.codex/prompts/harness-task.md` 并按其流程执行。
-- 「给这个项目搭 harness / 初始化开发流 / harness init」→ 读 `~/.codex/prompts/harness-init.md` 并执行。
-- 「harness 维护 / 清理技术债 / 把教训固化成规则」→ 读 `~/.codex/prompts/harness-maintain.md` 并执行。
+- 「开工 / 按开发流做 / 接手任务 / 继续 <任务名>」→ 调用 `harness-task` skill。
+- 「给这个项目搭 harness / 初始化开发流 / harness init」→ 调用 `harness-init` skill。
+- 「harness 维护 / 清理技术债 / 把教训固化成规则」→ 调用 `harness-maintain` skill。
 
 # 记录与工作约定（Working Style）
 

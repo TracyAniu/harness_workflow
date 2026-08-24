@@ -15,12 +15,22 @@ for s in harness-init harness-task harness-maintain; do
   echo "skill: $s"
 done
 
-# 2. Codex prompts（覆盖式）
-mkdir -p "$HOME/.codex/prompts"
-cp "$KIT_DIR"/codex-prompts/harness-*.md "$HOME/.codex/prompts/"
-echo "codex prompts: harness-init / harness-task / harness-maintain"
+# 2. Codex skills（当前 Codex 从 ~/.agents/skills 发现用户级 skills）
+mkdir -p "$HOME/.agents/skills"
+for s in harness-init harness-task harness-maintain; do
+  rm -rf "$HOME/.agents/skills/$s"
+  cp -R "$KIT_DIR/claude-skills/$s" "$HOME/.agents/skills/$s"
+  echo "codex skill: $s"
+done
 
-# 3. 全局文件的 marker 块 upsert：
+# 3. 清理旧版 Codex 自定义 prompt 安装。新版本不会把这些文件注册成 /harness-* 命令。
+rm -f \
+  "$HOME/.codex/prompts/harness-init.md" \
+  "$HOME/.codex/prompts/harness-task.md" \
+  "$HOME/.codex/prompts/harness-maintain.md"
+echo "legacy codex prompts: removed"
+
+# 4. 全局文件的 marker 块 upsert：
 #    删除已有 BEGIN..END 块，把仓库里的最新片段追加到文件末尾。
 #    块以外的内容（机器专属备注等）原样保留。
 upsert_block() {
@@ -46,4 +56,4 @@ upsert_block() {
 upsert_block "$HOME/.claude/CLAUDE.md" "$KIT_DIR/global/claude-global.md"
 upsert_block "$HOME/.codex/AGENTS.md"  "$KIT_DIR/global/codex-global.md"
 
-echo "harness-kit installed. 验证：Claude Code 里输 /skills、Codex 里输 /har 看补全。"
+echo 'harness-kit installed. 验证：Claude Code 和 Codex 里输 /skills；Codex 用 $harness-init 调用。'

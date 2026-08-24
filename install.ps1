@@ -16,13 +16,25 @@ foreach ($s in "harness-init", "harness-task", "harness-maintain") {
     Write-Output "skill: $s"
 }
 
-# 2. Codex prompts（覆盖式）
-$promptsDst = Join-Path $env:USERPROFILE ".codex\prompts"
-New-Item -ItemType Directory -Force -Path $promptsDst | Out-Null
-Copy-Item (Join-Path $Kit "codex-prompts\harness-*.md") $promptsDst -Force
-Write-Output "codex prompts: harness-init / harness-task / harness-maintain"
+# 2. Codex skills（当前 Codex 从 ~/.agents/skills 发现用户级 skills）
+$codexSkillsDst = Join-Path $env:USERPROFILE ".agents\skills"
+New-Item -ItemType Directory -Force -Path $codexSkillsDst | Out-Null
+foreach ($s in "harness-init", "harness-task", "harness-maintain") {
+    $dst = Join-Path $codexSkillsDst $s
+    if (Test-Path $dst) { Remove-Item -Recurse -Force $dst }
+    Copy-Item -Recurse (Join-Path $Kit "claude-skills\$s") $dst
+    Write-Output "codex skill: $s"
+}
 
-# 3. 全局文件的 marker 块 upsert：删除已有块，追加仓库最新片段；块外内容原样保留。
+# 3. 清理旧版 Codex 自定义 prompt 安装。新版本不会把这些文件注册成 /harness-* 命令。
+$legacyPromptsDst = Join-Path $env:USERPROFILE ".codex\prompts"
+foreach ($name in "harness-init.md", "harness-task.md", "harness-maintain.md") {
+    $legacyPrompt = Join-Path $legacyPromptsDst $name
+    if (Test-Path $legacyPrompt) { Remove-Item -Force $legacyPrompt }
+}
+Write-Output "legacy codex prompts: removed"
+
+# 4. 全局文件的 marker 块 upsert：删除已有块，追加仓库最新片段；块外内容原样保留。
 function Update-KitBlock([string]$File, [string]$Snippet) {
     $dir = Split-Path -Parent $File
     New-Item -ItemType Directory -Force -Path $dir | Out-Null
@@ -53,4 +65,4 @@ function Update-KitBlock([string]$File, [string]$Snippet) {
 Update-KitBlock (Join-Path $env:USERPROFILE ".claude\CLAUDE.md") (Join-Path $Kit "global\claude-global.md")
 Update-KitBlock (Join-Path $env:USERPROFILE ".codex\AGENTS.md") (Join-Path $Kit "global\codex-global.md")
 
-Write-Output "harness-kit installed."
+Write-Output "harness-kit installed. Codex: use /skills or `$harness-init."
