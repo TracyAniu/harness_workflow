@@ -28,14 +28,14 @@
 - When given a bug report, investigate, identify evidence, and fix it end-to-end.
 - Avoid asking for unnecessary step-by-step guidance when the repository already contains enough context.
 
-# dev-harness 开发流三件套
+# dev-harness workflow kit
 
-- 已安装标准 AI 开发流 skills（`~/.claude/skills/`）：
-  - `harness-init`：给项目初始化 agent 工程环境（AGENTS.md 地图 + docs/ + exec-plans + scripts 统一验证入口），轻量起步分 L0/L1/L2，模板在 `harness-init/assets/`。
-  - `harness-task`：每轮任务标准流（开工检查 → 计划 → 小步实现 → 可执行验证 → 记录进度 → 干净交接）。
-  - `harness-maintain`：熵回收（文档园艺、归档 exec-plans、把 lessons 里反复出现的教训沿"文档→模板→lint→CI"阶梯升级为机制）。
-- 约定：单会话小任务用 `tasks/todo.md`（沿用 Working Style）；**跨会话/多步骤大任务**用 `docs/exec-plans/active/*.md` + Progress Log。两者不冲突，按任务跨度选。
-- CLAUDE.md 与 AGENTS.md 的关系：项目级地图写在 AGENTS.md（Codex 等工具也能读），项目 CLAUDE.md 只放一行 `@AGENTS.md` 导入。
-- 三件套里的 scripts 模板是 bash（.sh）。在 Windows 项目上跑 harness-init 时，优先用 Git Bash 执行，或按项目实际生成 PowerShell/bat 等价脚本，不要生成跑不起来的假脚本。
-- Codex 侧是同一套开发流：自定义 prompts 在 `~/.codex/prompts/`（命令 `/harness-init` `/harness-task` `/harness-maintain`），全局规范在 `~/.codex/AGENTS.md`；harness-init 模板与 Claude 共用 `~/.claude/skills/harness-init/assets/`。
-- **本区块由 harness-kit 管理**（https://github.com/TracyAniu/harness_workflow ）：改流程改仓库后各机 `git pull` + 重跑安装脚本；不要手改本区块内容，会被安装脚本覆盖。
+- The standard AI dev-workflow skills are installed in `~/.claude/skills/`:
+  - `harness-init`: sets up an agent engineering environment for a project (an AGENTS.md map + docs/ + exec-plans + a single scripts entry point for verification). It starts light, at level L0/L1/L2; templates are in `harness-init/assets/`.
+  - `harness-task`: the standard flow for each round of work (start-up check → plan → small-step implementation → executable verification → progress record → clean handoff).
+  - `harness-maintain`: entropy cleanup (doc gardening, archiving exec-plans, and promoting lessons that keep recurring up the "docs → template → lint → CI" ladder into mechanisms).
+- Convention: small single-session tasks use `tasks/todo.md` (as in Working Style); **multi-session or multi-step tasks** use `docs/exec-plans/active/*.md` with a Progress Log. The two don't conflict; choose by how long the task runs.
+- CLAUDE.md vs AGENTS.md: the project-level map goes in AGENTS.md (Codex and other tools can read it too); the project's CLAUDE.md holds only a one-line `@AGENTS.md` import.
+- The kit's scripts templates are bash (.sh). When running harness-init on a Windows project, prefer Git Bash, or generate PowerShell/bat equivalents that fit the project. Never generate placeholder scripts that can't run.
+- Codex uses the same workflow: the same three skills are installed as Codex skills in `~/.agents/skills/` (list them with `/skills`, or call one with `$harness-init`, `$harness-task` or `$harness-maintain`), each with its own copy of the assets. Codex's global rules are in `~/.codex/AGENTS.md`.
+- **This block is managed by harness-kit** (https://github.com/TracyAniu/harness_workflow ): to change the workflow, change the repo, then on each machine `git pull` and rerun the installer. Don't edit this block by hand; the installer overwrites it.
