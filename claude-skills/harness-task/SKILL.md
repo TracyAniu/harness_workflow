@@ -13,7 +13,7 @@ description: 按标准 AI 开发流执行一轮开发任务：开工检查 → �
 
 1. 读 `AGENTS.md`（或 CLAUDE.md）与本任务相关的 `docs/`。
 2. `git status` + `git log --oneline -10`：确认工作区干净、了解近期发生了什么。工作区不干净时先向用户确认怎么处理，不要在脏状态上叠加改动。
-3. 读进度：`docs/exec-plans/active/` 下的活跃计划、`tasks/todo.md`。
+3. 读进度与教训：`docs/exec-plans/active/` 下的活跃计划、`tasks/todo.md`、`tasks/lessons.md`。todo.md 超过约 200 行或 lessons.md 超过约 60 行时，先只读与本任务相关的部分（搜索关键词），并提醒用户跑 `harness-maintain` 精简；本轮不顺手清理。
 4. 跑冒烟：`./scripts/smoke.sh` 或等价方式，确认主流程当前没坏。**先修再做**——基础已坏的话，修复它就是本轮第一个任务。
 
 ## 2. 定任务与计划
@@ -40,6 +40,7 @@ description: 按标准 AI 开发流执行一轮开发任务：开工检查 → �
 每轮结束时仓库要像"准备合入主分支"一样：无明显 bug、有验证记录、有提交、有说明。
 
 1. 更新进度：`tasks/todo.md` 勾选并补 Review 小节；exec-plan 追加一条 Progress Log（做了什么 / 验证了什么 / 下一步从哪继续）。
+   - 本轮任务块的 checkbox 全部勾完后，把整个块（顶级 `# ` 标题到下一个顶级标题）原样移到 `tasks/todo-archive.md` 文件头之后（新的在前；文件不存在就新建，文件头写一行说明）。还有未勾选项的块留在 todo.md。这样 todo.md 只放进行中的事，下一轮开工读得快。
 2. 行为、架构或工作流有变化 → 同步更新对应 docs。
 3. 验证通过后小步 commit，message 说清这轮做了什么——git history 是跨会话记忆的一部分。
 4. 有教训 → 以可复用规则的形式记入 `tasks/lessons.md`。
